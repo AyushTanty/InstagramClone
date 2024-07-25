@@ -24,7 +24,14 @@ class SignUpActivity : AppCompatActivity() {
     private val launcher= registerForActivityResult(ActivityResultContracts.GetContent()){
         uri->
         uri?.let {
-            user.image= uploadImage(uri, USER_PROFILE_FOLDER)
+             uploadImage(uri, USER_PROFILE_FOLDER){
+                if (it==null){
+
+                }else{
+                    user.image=it
+                    binding.profileImage.setImageURI(uri)
+                }
+            }
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
