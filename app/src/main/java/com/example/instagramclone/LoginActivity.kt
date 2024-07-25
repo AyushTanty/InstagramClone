@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.instagramclone.Models.User
 import com.example.instagramclone.databinding.ActivityLoginBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 class LoginActivity : AppCompatActivity() {
     private  val binding by lazy {
