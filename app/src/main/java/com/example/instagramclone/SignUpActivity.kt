@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.instagramclone.Models.User
 import com.example.instagramclone.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -13,6 +14,7 @@ class SignUpActivity : AppCompatActivity() {
     val binding by lazy {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
+   lateinit var user: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
