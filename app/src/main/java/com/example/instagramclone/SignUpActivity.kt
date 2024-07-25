@@ -15,7 +15,7 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        binding.signUpBtm.setOnClickListener {
+        binding.signUpBtn.setOnClickListener {
             if (binding.name.editText?.text.toString().equals("") or
                 binding.email.editText?.text.toString().equals("") or
                 binding.password.editText?.text.toString().equals("")
