@@ -21,4 +21,11 @@ class User {
         this.email = email
         this.password = password
     }
+
+    constructor(password: String?, email: String?) {
+        this.password = password
+        this.email = email
+    }
+
+
 }
