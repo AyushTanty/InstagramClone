@@ -18,3 +18,5 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 }
+val text = "<font color=#FF000000>Already have an Account</font> <font color=#1E88E5>Login ?</font>"
+binding.login.setText(Html.fromHtml(text))
