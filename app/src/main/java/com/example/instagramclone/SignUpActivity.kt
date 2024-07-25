@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.instagramclone.databinding.ActivitySignUpBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SignUpActivity : AppCompatActivity() {
     val binding by lazy {
@@ -20,12 +21,35 @@ class SignUpActivity : AppCompatActivity() {
                 binding.email.editText?.text.toString().equals("") or
                 binding.password.editText?.text.toString().equals("")
             ) {
-                Toast.makeText(this@SignUpActivity, "please fill all the information", Toast.LENGTH_SHORT).show()
-            }else{
+                Toast.makeText(
+                    this@SignUpActivity,
+                    "please fill all the information",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(
+                    binding.email.editText?.text.toString(),
+                    binding.password.editText?.text.toString()
+                ).addOnCompleteListener { result ->
+                    if (result.isSuccessful) {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            "Account Created Successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            result.exception?.localizedMessage,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-        }
+
+                }
+            }
         }
     }
 }
-val text = "<font color=#FF000000>Already have an Account</font> <font color=#1E88E5>Login ?</font>"
-binding.login.setText(Html.fromHtml(text))
+
