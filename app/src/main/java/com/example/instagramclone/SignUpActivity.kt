@@ -3,21 +3,34 @@ package com.example.instagramclone
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.instagramclone.Models.User
 import com.example.instagramclone.databinding.ActivitySignUpBinding
+import com.example.instagramclone.utils.USER_PROFILE_FOLDER
+import com.example.instagramclone.utils.uploadImage
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 
 class SignUpActivity : AppCompatActivity() {
     val binding by lazy {
         ActivitySignUpBinding.inflate(layoutInflater)
     }
-   lateinit var user: User
+    lateinit var user: User
+    private val launcher= registerForActivityResult(ActivityResultContracts.GetContent()){
+        uri->
+        uri?.let {
+            user.image= uploadImage(uri, USER_PROFILE_FOLDER)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        user = User()
         binding.signUpBtn.setOnClickListener {
             if (binding.name.editText?.text.toString().equals("") or
                 binding.email.editText?.text.toString().equals("") or
@@ -34,6 +47,18 @@ class SignUpActivity : AppCompatActivity() {
                     binding.password.editText?.text.toString()
                 ).addOnCompleteListener { result ->
                     if (result.isSuccessful) {
+                        user.name = binding.name.editText?.text.toString()
+                        user.email = binding.email.editText?.text.toString()
+                        user.password = binding.password.editText?.text.toString()
+                        Firebase.firestore.collection("USER_NODE")
+                            .document(Firebase.auth.currentUser!!.uid).set(user)
+                            .addOnSuccessListener {
+                                Toast.makeText(
+                                    this@SignUpActivity,
+                                    "login",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         Toast.makeText(
                             this@SignUpActivity,
                             "Account Created Successfully",
@@ -51,6 +76,9 @@ class SignUpActivity : AppCompatActivity() {
 
                 }
             }
+        }
+        binding.addImage.setOnClickListener{
+            launcher.launch("image/*")
         }
     }
 }
