@@ -1,5 +1,6 @@
 package com.example.instagramclone
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.widget.Toast
@@ -55,7 +56,8 @@ class SignUpActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                     binding.email.editText?.text.toString(),
                     binding.password.editText?.text.toString()
-                ).addOnCompleteListener { result ->
+                ).addOnCompleteListener {
+                    result ->
                     if (result.isSuccessful) {
                         user.name = binding.name.editText?.text.toString()
                         user.email = binding.email.editText?.text.toString()
@@ -63,11 +65,8 @@ class SignUpActivity : AppCompatActivity() {
                         Firebase.firestore.collection("USER_NODE")
                             .document(Firebase.auth.currentUser!!.uid).set(user)
                             .addOnSuccessListener {
-                                Toast.makeText(
-                                    this@SignUpActivity,
-                                    "login",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                               startActivity(Intent(this@SignUpActivity,HomeActivity::class.java))
+                                finish()
                             }
                         Toast.makeText(
                             this@SignUpActivity,
